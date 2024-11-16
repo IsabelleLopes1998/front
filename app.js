@@ -18,23 +18,14 @@ async function fetchProducts() {
     const li = document.createElement('li');
     li.innerHTML = `<strong>${product.name}</strong> - $${product.price.toFixed(2)}`;
     
-    // Add delete button for each product
-    const deleteButton = document.createElement('button');
-    deleteButton.innerHTML = 'Delete';
-    deleteButton.addEventListener('click', async () => {
-      await deleteProduct(product.id);
-      await fetchProducts();
-    });
-    li.appendChild(deleteButton);
-// Event listener for Add Product form submit button
-addProductForm.addEventListener('submit', async event => {
-  event.preventDefault();
-  const name = addProductForm.elements['name'].value;
-  const price = addProductForm.elements['price'].value;
-  await addProduct(name, price);
-  addProductForm.reset();
-  await fetchProducts();
-});
+   async function deleteProduct(id) {
+  await fetch(`http://localhost:3000/products/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+}
 
     // Botão de Atualização
     const updateButton = document.createElement('button');
@@ -51,7 +42,7 @@ addProductForm.addEventListener('submit', async event => {
     const descriptionButton = document.createElement('button');
     descriptionButton.textContent = 'Description';
     descriptionButton.addEventListener('click', () => {
-      alert(`Product: ${product.name}\nPrice: $${product.price.toFixed(2)}`);
+      alert(`Product: ${product.name}\nPrice: $${product.price.toFixed(2)}\ndescription: ${product.description}`);
     });
     li.appendChild(descriptionButton);
 
@@ -59,27 +50,25 @@ addProductForm.addEventListener('submit', async event => {
   });
 }
 
-// Evento para adicionar produto
-addProductForm.addEventListener('submit', async event => {
-  event.preventDefault();
-  const name = addProductForm.elements['name'].value;
-  const price = parseFloat(addProductForm.elements['price'].value);
-
-  await addProduct(name, price);
-  addProductForm.reset();
-  await fetchProducts();
-});
-
 // Evento para atualizar produto
 updateProductForm.addEventListener('submit', async event => {
   event.preventDefault();
   const id = updateProductId.value;
   const name = updateProductName.value;
   const price = parseFloat(updateProductPrice.value);
-
   await updateProduct(id, name, price);
   updateProductForm.reset();
   updateProductForm.style.display = 'none';
+  await fetchProducts();
+});
+
+// Event listener for Add Product form submit button
+addProductForm.addEventListener('submit', async event => {
+  event.preventDefault();
+  const name = addProductForm.elements['name'].value;
+  const price = addProductForm.elements['price'].value;
+  await addProduct(name, price);
+  addProductForm.reset();
   await fetchProducts();
 });
 
@@ -103,6 +92,18 @@ async function updateProduct(id, name, price) {
     },
     body: JSON.stringify({ name, price }),
   });
+}
+
+// Function to delete a new product
+async function deleteProduct(id) {
+  const response = await fetch('http://localhost:3000/products/' + id, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    //body: JSON.stringify({id})
+  });
+  return response.json();
 }
 
 // Buscar produtos ao carregar a página

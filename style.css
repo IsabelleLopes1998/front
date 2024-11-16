@@ -21,7 +21,7 @@ body {
     padding: 5px 10px;
     background-color: #f2f2f2;
     border-radius: 5px;
-    box-shadow: 2px 2px 2px #ccc;
+    box-shadow: 2px 2px 2px #f5cccc;
   }
   
   button {
@@ -46,10 +46,10 @@ body {
   form {
     margin-top: 20px;
     text-align: center;
-    background-color: #f2f2f2;
+    background-color: #f5cccc;
     padding: 20px;
     border-radius: 5px;
-    box-shadow: 2px 2px 2px #ccc;
+    box-shadow: 2px 2px 2px #f5cccc;
   }
   
   label {
@@ -61,7 +61,7 @@ body {
   input[type="number"] {
     padding: 5px;
     border-radius: 5px;
-    border: 1px solid #ccc;
+    border: 1px solid #f5cccc;
     width: 100%;
     margin-bottom: 10px;
     box-sizing: border-box;
