@@ -17,6 +17,24 @@ async function fetchProducts() {
   products.forEach(product => {
     const li = document.createElement('li');
     li.innerHTML = `<strong>${product.name}</strong> - $${product.price.toFixed(2)}`;
+    
+    // Add delete button for each product
+    const deleteButton = document.createElement('button');
+    deleteButton.innerHTML = 'Delete';
+    deleteButton.addEventListener('click', async () => {
+      await deleteProduct(product.id);
+      await fetchProducts();
+    });
+    li.appendChild(deleteButton);
+// Event listener for Add Product form submit button
+addProductForm.addEventListener('submit', async event => {
+  event.preventDefault();
+  const name = addProductForm.elements['name'].value;
+  const price = addProductForm.elements['price'].value;
+  await addProduct(name, price);
+  addProductForm.reset();
+  await fetchProducts();
+});
 
     // Botão de Atualização
     const updateButton = document.createElement('button');
