@@ -4,6 +4,7 @@ const updateProductForm = document.querySelector('#update-product-form');
 const updateProductId = document.querySelector('#update-id');
 const updateProductName = document.querySelector('#update-name');
 const updateProductPrice = document.querySelector('#update-price');
+const updateProductDescription = document.querySelector('#update-description');
 
 // Função para buscar todos os produtos do servidor
 async function fetchProducts() {
@@ -39,6 +40,7 @@ async function fetchProducts() {
     const updateButton = document.createElement('button');
     updateButton.textContent = 'Update';
     updateButton.addEventListener('click', () => {
+
       updateProductId.value = product.id;
       updateProductName.value = product.name;
       updateProductPrice.value = product.price;
@@ -65,7 +67,7 @@ updateProductForm.addEventListener('submit', async event => {
   const id = updateProductId.value;
   const name = updateProductName.value;
   const price = parseFloat(updateProductPrice.value);
-  const description = addProductForm.elements['description'].value;
+  const description = updateProductDescription.value;
 
   await updateProduct(id, name, price, description);
   updateProductForm.reset();
