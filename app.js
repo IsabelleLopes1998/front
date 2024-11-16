@@ -26,6 +26,14 @@ async function fetchProducts() {
     },
   });
 }
+     // Add delete button for each product
+    const deleteButton = document.createElement('button');
+    deleteButton.innerHTML = 'Delete';
+    deleteButton.addEventListener('click', async () => {
+      await deleteProduct(product.id);
+      await fetchProducts();
+    });
+    li.appendChild(deleteButton);
 
     // Botão de Atualização
     const updateButton = document.createElement('button');
