@@ -7,7 +7,7 @@ const updateProductPrice = document.querySelector('#update-price');
 
 // Função para buscar todos os produtos do servidor
 async function fetchProducts() {
-  const response = await fetch('http://localhost:3000/products');
+  const response = await fetch('http://100.26.52.69:3000/products');
   const products = await response.json();
 
   // Limpar a lista de produtos
@@ -19,7 +19,7 @@ async function fetchProducts() {
     li.innerHTML = `<strong>${product.name}</strong> - $${product.price.toFixed(2)}`;
     
    async function deleteProduct(id) {
-  await fetch(`http://localhost:3000/products/${id}`, {
+  await fetch(`http://100.26.52.69:3000/products/${id}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
@@ -74,7 +74,7 @@ addProductForm.addEventListener('submit', async event => {
 
 // Função para adicionar produto
 async function addProduct(name, price) {
-  await fetch('http://localhost:3000/products', {
+  await fetch('http://100.26.52.69:3000/products', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -85,7 +85,7 @@ async function addProduct(name, price) {
 
 // Função para atualizar produto
 async function updateProduct(id, name, price) {
-  await fetch(`http://localhost:3000/products/${id}`, {
+  await fetch(`http://100.26.52.69:3000/products/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -96,7 +96,7 @@ async function updateProduct(id, name, price) {
 
 // Function to delete a new product
 async function deleteProduct(id) {
-  const response = await fetch('http://localhost:3000/products/' + id, {
+  const response = await fetch('http://100.26.52.69:3000/products/' + id, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json'
