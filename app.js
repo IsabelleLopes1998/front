@@ -16,7 +16,7 @@ async function fetchProducts() {
   // Adicionar cada produto à lista
   products.forEach(product => {
     const li = document.createElement('li');
-    li.innerHTML = `<strong>${product.name}</strong> - $${product.price.toFixed(2)}`;
+    li.innerHTML = `<strong>${product.name}</strong> - $${product.price.toFixed(2)} - $${product.description} `;
     
    async function deleteProduct(id) {
   await fetch(`http://100.26.52.69:3000/products/${id}`, {
@@ -42,6 +42,7 @@ async function fetchProducts() {
       updateProductId.value = product.id;
       updateProductName.value = product.name;
       updateProductPrice.value = product.price;
+      updateProductDescription.value = product.description;
       updateProductForm.style.display = 'block';
     });
     li.appendChild(updateButton);
@@ -64,7 +65,9 @@ updateProductForm.addEventListener('submit', async event => {
   const id = updateProductId.value;
   const name = updateProductName.value;
   const price = parseFloat(updateProductPrice.value);
-  await updateProduct(id, name, price);
+  const description = addProductForm.elements['description'].value;
+
+  await updateProduct(id, name, price, description);
   updateProductForm.reset();
   updateProductForm.style.display = 'none';
   await fetchProducts();
@@ -75,30 +78,32 @@ addProductForm.addEventListener('submit', async event => {
   event.preventDefault();
   const name = addProductForm.elements['name'].value;
   const price = addProductForm.elements['price'].value;
-  await addProduct(name, price);
+  const description = addProductForm.elements['description'].value;
+
+  await addProduct(name, price, description);
   addProductForm.reset();
   await fetchProducts();
 });
 
 // Função para adicionar produto
-async function addProduct(name, price) {
+async function addProduct(name, price, description) {
   await fetch('http://100.26.52.69:3000/products', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ name, price }),
+    body: JSON.stringify({ name, price, description }),
   });
 }
 
 // Função para atualizar produto
-async function updateProduct(id, name, price) {
+async function updateProduct(id, name, price, description) {
   await fetch(`http://100.26.52.69:3000/products/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ name, price }),
+    body: JSON.stringify({ name, price, description }),
   });
 }
 
