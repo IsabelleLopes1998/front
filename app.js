@@ -4,7 +4,6 @@ const updateProductForm = document.querySelector('#update-product-form');
 const updateProductId = document.querySelector('#update-id');
 const updateProductName = document.querySelector('#update-name');
 const updateProductPrice = document.querySelector('#update-price');
-const updateProductDescription = document.querySelector('#update-description');
 
 // Função para buscar todos os produtos do servidor
 async function fetchProducts() {
@@ -17,7 +16,7 @@ async function fetchProducts() {
   // Adicionar cada produto à lista
   products.forEach(product => {
     const li = document.createElement('li');
-    li.innerHTML = `<strong>${product.name}</strong> - $${product.price.toFixed(2)} - $${product.description} `;
+    li.innerHTML = `<strong>${product.name}</strong> - $${product.price.toFixed(2)}`;
     
    async function deleteProduct(id) {
   await fetch(`http://100.26.52.69:3000/products/${id}`, {
@@ -40,11 +39,10 @@ async function fetchProducts() {
     const updateButton = document.createElement('button');
     updateButton.textContent = 'Update';
     updateButton.addEventListener('click', () => {
-
       updateProductId.value = product.id;
       updateProductName.value = product.name;
       updateProductPrice.value = product.price;
-      updateProductDescription.value = product.description;
+      updateProductDescrip.value = product.price;
       updateProductForm.style.display = 'block';
     });
     li.appendChild(updateButton);
@@ -67,8 +65,7 @@ updateProductForm.addEventListener('submit', async event => {
   const id = updateProductId.value;
   const name = updateProductName.value;
   const price = parseFloat(updateProductPrice.value);
-  const description = updateProductDescription.value;
-
+  const description = addProductForm.elements['description'].value;
   await updateProduct(id, name, price, description);
   updateProductForm.reset();
   updateProductForm.style.display = 'none';
@@ -88,24 +85,24 @@ addProductForm.addEventListener('submit', async event => {
 });
 
 // Função para adicionar produto
-async function addProduct(name, price, description) {
+async function addProduct(name, price) {
   await fetch('http://100.26.52.69:3000/products', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ name, price, description }),
+    body: JSON.stringify({ name, price }),
   });
 }
 
 // Função para atualizar produto
-async function updateProduct(id, name, price, description) {
+async function updateProduct(id, name, price) {
   await fetch(`http://100.26.52.69:3000/products/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ name, price, description }),
+    body: JSON.stringify({ name, price }),
   });
 }
 
