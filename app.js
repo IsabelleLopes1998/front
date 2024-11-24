@@ -4,6 +4,7 @@ const updateProductForm = document.querySelector('#update-product-form');
 const updateProductId = document.querySelector('#update-id');
 const updateProductName = document.querySelector('#update-name');
 const updateProductPrice = document.querySelector('#update-price');
+const updateProductDescription = document.querySelector('#update-description');
 
 // Função para buscar todos os produtos do servidor
 async function fetchProducts() {
@@ -42,7 +43,7 @@ async function fetchProducts() {
       updateProductId.value = product.id;
       updateProductName.value = product.name;
       updateProductPrice.value = product.price;
-      updateProductDescrip.value = product.price;
+      updateProductDescription.value = product.description;
       updateProductForm.style.display = 'block';
     });
     li.appendChild(updateButton);
@@ -65,7 +66,8 @@ updateProductForm.addEventListener('submit', async event => {
   const id = updateProductId.value;
   const name = updateProductName.value;
   const price = parseFloat(updateProductPrice.value);
-  const description = addProductForm.elements['description'].value;
+  const description = updateProductForm.elements['update-description'].value;
+
   await updateProduct(id, name, price, description);
   updateProductForm.reset();
   updateProductForm.style.display = 'none';
@@ -85,24 +87,24 @@ addProductForm.addEventListener('submit', async event => {
 });
 
 // Função para adicionar produto
-async function addProduct(name, price) {
+async function addProduct(name, price, description) {
   await fetch('http://100.26.52.69:3000/products', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ name, price }),
+    body: JSON.stringify({ name, price, description }),
   });
 }
 
 // Função para atualizar produto
-async function updateProduct(id, name, price) {
+async function updateProduct(id, name, price, description) {
   await fetch(`http://100.26.52.69:3000/products/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ name, price }),
+    body: JSON.stringify({ name, price, description }),
   });
 }
 
@@ -113,7 +115,7 @@ async function deleteProduct(id) {
     headers: {
       'Content-Type': 'application/json'
     },
-    //body: JSON.stringify({id})
+    body: JSON.stringify({id})
   });
   return response.json();
 }
